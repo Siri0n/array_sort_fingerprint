@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="sort.js"></script>	
+	<script src="main.js"></script>
+	<style>
+	a{
+		display: block;
+		margin-bottom: 30px;
+	}
+	body{
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+	#left, #right{
+		height: 100vh;
+	}
+	#left{
+		float: left;
+		overflow: hidden;
+	}
+	#right{
+		padding-left: 30px;
+		overflow: hidden;
+		overflow-y: scroll;
+	}
+	#left > div, #right > div{
+		display: inline-block;
+		text-align: center;
+		border: 1px solid grey;
+		padding: 30px;
+		margin: 2px;
+	}
+	</style>
+</head>
+<body>
+	<div id="left"></div>
+	<div id="right"></div>
+	<script>
+		main(sorts);
+	</script>
+</body>
+</html>
