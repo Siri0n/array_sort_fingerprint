@@ -92,6 +92,54 @@ function insertionSortBinarySearch(arr, comp) {
     }
 }
 
+// Shell sort (Gap sequences - by Sedgwick algorithm)
+
+function shellSort(arr, comp) {
+	// Sedgwick gaps (increments) and whole array sizes
+	var SedgwickInc = [
+	  1, 5, 19, 41,
+	  109, 209, 505, 929,
+	  2161, 3905, 8929, 16001,
+	  36289, 64769, 146305, 260609,
+	  587521, 1045505, 2354689, 4188161,
+	  9427969, 16764929, 37730305, 67084289,
+	  150958081, 268386305, 603906049, 1073643521
+	];
+
+	var SedgwickArraySize = [
+	  3, 15, 57, 123,
+	  327, 627, 1515, 2787,
+	  6483, 11715, 26787, 48003,
+	  108867, 194307, 438915, 781827,
+	  1762563, 3136515, 7064067, 12564483,
+	  28283907, 50294787, 113190915, 201252867,
+	  452874243, 805158915, 1811718147, 3220930563
+	];
+
+	var i, j, temp, inc, size, incIdx;
+
+	size = arr.length;
+
+	/* calc index of initial step depending on array length */
+	for (i = 1; i < 28; i++)  {
+		if (SedgwickArraySize[i] > size)  {
+			break;
+		}
+	}
+	incIdx = (i - 1);
+
+	while (incIdx >= 0)  {
+		inc = SedgwickInc[incIdx--];  // set next gap
+		for (i = inc; i < size; i++)  {
+			temp = arr[i];
+			for (j = i-inc; (j >= 0) && comp(arr[j], temp) > 0; j-=inc)  {
+				arr[j+inc] = arr[j];
+			}
+			arr[j+inc] = temp;
+		}
+	}
+}
+
 //Merge sort
 
 function mergeSort(arr, comp, start, end){
@@ -306,5 +354,10 @@ var sorts = [
 		name: "Tree sort (AVL tree)",
 		sort: treeSortAVL,
 		href: "https://en.wikipedia.org/wiki/Tree_sort"
+	},
+	{
+		name: "Shell sort (Sedgwick gap sequences)",
+		sort: shellSort,
+		href: "https://en.wikipedia.org/wiki/Shellsort"
 	}
 ]
