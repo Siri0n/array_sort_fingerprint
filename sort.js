@@ -28,12 +28,12 @@ function minSort(arr, comp){
 
 function bubbleSort(arr, comp){
 	var i, j, temp;
-	for(i = arr.length - 1; i > 0; i--){
-		for(j = 0; j < i; j++){
-			if(comp(arr[j], arr[j + 1]) > 0){
+	for(i = 0; i < arr.length - 1; i++){
+		for(j = arr.length - 1; j > i; j--){
+			if(comp(arr[j], arr[j - 1]) < 0){
 				temp = arr[j];
-				arr[j] = arr[j + 1];
-				arr[j + 1] = temp;
+				arr[j] = arr[j - 1];
+				arr[j - 1] = temp;
 			}
 		}
 	}
