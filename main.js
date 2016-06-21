@@ -93,7 +93,6 @@ function draw(arr, size, sort, parent){
 	canvas.width = canvas.height = Math.max(size, minsize);
 	div.appendChild(canvas);
 	var ctx = canvas.getContext("2d");
-	ctx.imageSmoothingEnabled = false;
 	ctx.fillStyle = "#fff";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	var data = ctx.getImageData(0, 0, size, size);
@@ -115,7 +114,6 @@ function draw(arr, size, sort, parent){
 		var tmp = document.createElement("canvas");
 		tmp.height = tmp.width = minsize;
 		var tmpctx = tmp.getContext("2d");
-		tmpctx.imageSmoothingEnabled = true;
 		tmpctx.drawImage(canvas, 0, 0, minsize*minsize/size, minsize*minsize/size);
 		ctx.clearRect(0, 0, minsize, minsize);
 		ctx.drawImage(tmp, 0, 0, minsize, minsize);
