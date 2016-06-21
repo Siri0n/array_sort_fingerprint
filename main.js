@@ -34,7 +34,8 @@ function Item(index, val, comparisons){
 	}
 	this.compare = function(other){
 		comparisons.push([index, other.getIndex()]);
-		return val - other.getVal();
+		return val - other.getVal() ;
+			//|| index - other.getIndex; // hack for working with current RBTree inplementation
 	}
 }
 
@@ -92,7 +93,10 @@ function draw(arr, size, sort, parent){
 	canvas.width = canvas.height = Math.max(size, minsize);
 	div.appendChild(canvas);
 	var ctx = canvas.getContext("2d");
-	var data = ctx.createImageData(size, size);
+	ctx.imageSmoothingEnabled = false;
+	ctx.fillStyle = "#fff";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	var data = ctx.getImageData(0, 0, size, size);
 	arr.forEach(function(item, index){
 		var rgb = hslToRgb(index/(arr.length*1.5), 1, 0.5);
 		var pos = size*item[0] + item[1];
@@ -111,6 +115,7 @@ function draw(arr, size, sort, parent){
 		var tmp = document.createElement("canvas");
 		tmp.height = tmp.width = minsize;
 		var tmpctx = tmp.getContext("2d");
+		tmpctx.imageSmoothingEnabled = true;
 		tmpctx.drawImage(canvas, 0, 0, minsize*minsize/size, minsize*minsize/size);
 		ctx.clearRect(0, 0, minsize, minsize);
 		ctx.drawImage(tmp, 0, 0, minsize, minsize);

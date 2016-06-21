@@ -201,6 +201,29 @@ function shiftDown(arr, comp, n, maxheap){
 	}
 }
 
+
+function treeSortRB(arr, comp){
+	var tree = new RBTree(comp);
+	arr.forEach(function(item){
+		tree.insert(item);
+	});
+	var it = tree.iterator(), i = 0, elem;
+	while(it.next() && i < 1000){
+		arr[i++] = it.data();
+	}
+}
+
+function treeSortAVL(arr, comp){
+	var tree = new AVLTree(comp);
+	arr.forEach(function(item){
+		tree.add(item);
+	});
+	var arr2 = tree.traverse();
+	arr2.forEach(function(elem, index){
+		arr[index] = elem;
+	})
+}
+
 var sorts = [
 	{
 		name: "Selection sort",
@@ -236,5 +259,15 @@ var sorts = [
 		name: "Heapsort",
 		sort: heapSort,
 		href: "https://en.wikipedia.org/wiki/Heapsort"
+	},
+	{
+		name: "Tree sort (RB tree)",
+		sort: treeSortRB,
+		href: "https://en.wikipedia.org/wiki/Tree_sort"
+	},
+	{
+		name: "Tree sort (AVL tree)",
+		sort: treeSortAVL,
+		href: "https://en.wikipedia.org/wiki/Tree_sort"
 	}
 ]
