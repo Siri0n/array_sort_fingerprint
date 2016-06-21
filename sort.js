@@ -72,10 +72,10 @@ function insertionSortBinarySearch(arr, comp) {
         begin = 0;
         end = i - 1;
         
-        while (begin < end) {
+        while (begin <= end) {
             j = Math.ceil((begin + end) / 2);
 
-            if (comp(arr[j], arr[i]) <= 0) {
+            if (comp(arr[i], arr[j]) < 0) {
                 end = j - 1;
             } else {
                 begin = j + 1;
