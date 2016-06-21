@@ -60,6 +60,38 @@ function insertionSort(arr, comp){
 	}
 }
 
+// Insertion sort (binary search)
+
+function insertionSortBinarySearch(arr, comp) {
+    var i, j, begin, end, temp;
+    for (i = 1; i < arr.length; i++) {
+        if (comp(arr[i-1], arr[i]) <= 0) {
+            continue;
+        }
+
+        begin = 0;
+        end = i - 1;
+        
+        while (begin <= end) {
+            j = Math.ceil((begin + end) / 2);
+
+            if (comp(arr[i], arr[j]) < 0) {
+                end = j - 1;
+            } else {
+                begin = j + 1;
+            }
+        }
+
+        temp = arr[i];
+        k = i;
+        while (k > j) {
+            arr[k] = arr[k - 1];
+            k--;
+        }
+        arr[j] = temp;
+    }
+}
+
 //Merge sort
 
 function mergeSort(arr, comp, start, end){
@@ -240,6 +272,11 @@ var sorts = [
 		sort: insertionSort,
 		href: "https://en.wikipedia.org/wiki/Insertion_sort"
 	},
+    {
+        name: "Insertion sort (Binary search)",
+        sort: insertionSortBinarySearch,
+        href: "https://en.wikipedia.org/wiki/Insertion_sort"
+    },
 	{
 		name: "Merge sort",
 		sort: mergeSort,
