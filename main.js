@@ -1,4 +1,6 @@
-var minsize = 256;
+if(!window.location.search){
+	window.location.search = "?size=7&canvas=8";
+}
 
 function hslToRgb(h, s, l){ //stolen from StackOverflow =)
     var r, g, b;
@@ -34,8 +36,7 @@ function Item(index, val, comparisons){
 	}
 	this.compare = function(other){
 		comparisons.push([index, other.getIndex()]);
-		return val - other.getVal() ;
-			//|| index - other.getIndex; // hack for working with current RBTree inplementation
+		return val - other.getVal();
 	}
 }
 
@@ -74,7 +75,7 @@ function generateComparisonsArray(size, sort){
 	var i, val = 0;
 	for(i = 0; i < size; i++){
 		arr.push(new Item(i, val, comparisons));
-		val += Math.random();
+		val += Math.random(); //hack
 	}
 	shuffle(arr);
 	sort.sort(arr, function(a, b){ return a.compare(b)});
@@ -82,7 +83,7 @@ function generateComparisonsArray(size, sort){
 	return comparisons;
 }
 
-function draw(arr, size, sort, parent){
+function draw(arr, size, canvasSize, sort, parent){
 	var div = document.createElement("div");
 	parent.appendChild(div);
 	var a = document.createElement("a");
@@ -90,7 +91,7 @@ function draw(arr, size, sort, parent){
 	a.href=sort.href;
 	div.appendChild(a);
 	var canvas = document.createElement("canvas");
-	canvas.width = canvas.height = Math.max(size, minsize);
+	canvas.width = canvas.height = Math.max(size, canvasSize);
 	div.appendChild(canvas);
 	var ctx = canvas.getContext("2d");
 	ctx.fillStyle = "#fff";
@@ -110,42 +111,39 @@ function draw(arr, size, sort, parent){
 		data.data[pos*4 + 3] = 255;
 	});
 	ctx.putImageData(data, 0, 0);
-	if(size < minsize){
-		var tmp = document.createElement("canvas");
-		tmp.height = tmp.width = minsize;
-		var tmpctx = tmp.getContext("2d");
-		tmpctx.drawImage(canvas, 0, 0, minsize*minsize/size, minsize*minsize/size);
-		ctx.clearRect(0, 0, minsize, minsize);
-		ctx.drawImage(tmp, 0, 0, minsize, minsize);
+	if(size < canvasSize){
+		ctx.drawImage(canvas, 0, 0, canvasSize*canvasSize/size, canvasSize*canvasSize/size)
 	}
 }
 
-function createFingerprint(size, sort, parent){
+function createFingerprint(size, canvasSize, sort, parent){
 	var arr = generateComparisonsArray(size, sort);
-	draw(arr, size, sort, parent);
+	draw(arr, size, canvasSize, sort, parent);
 }
 
-function nativeSort(arr, f){arr.sort(f)}
-
-
-
 function main(sorts){
-	var pow = (window.location.search.match(/size=([0-9]+)/) || [,7])[1];
+	var pow = (window.location.search.match(/size=([0-9]+)/) || [])[1];
 	var size = Math.pow(2, pow|0);
 	if(!(size == size)){
 		size = 128;
+	}
+	pow = (window.location.search.match(/canvas=([0-9]+)/) || [])[1];
+	var canvasSize = Math.pow(2, pow|0);
+	if(!(canvasSize == canvasSize)){
+		canvasSize = 256;
 	}
 	var leftColumn = document.getElementById("left");
 	var rightColumn = document.getElementById("right");
 	createFingerprint(
 		size, 
+		canvasSize,
 		{
 			name: "Array#sort (current browser)", 
-			sort: nativeSort,
+			sort: function(arr, f){arr.sort(f)},
 			href: "http://www.w3schools.com/Jsref/jsref_sort.asp"
 		}, 
 		leftColumn);
 	sorts.forEach(function(sort){
-		createFingerprint(size, sort, rightColumn);
+		createFingerprint(size, canvasSize, sort, rightColumn);
 	});
 }
