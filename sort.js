@@ -84,7 +84,7 @@ function insertionSortBinarySearch(arr, comp) {
 
         temp = arr[i];
         k = i;
-        while (k > j) {
+        while (k > begin) {
             arr[k] = arr[k - 1];
             k--;
         }
