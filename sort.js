@@ -304,6 +304,30 @@ function treeSortAVL(arr, comp){
 	})
 }
 
+function combSort(arr, comp){
+	var magicNumber = 1.247;
+	var i, fgap = arr.length, gap = Math.floor(fgap);
+	while(gap > 1){
+		for(i = 0; i < arr.length - gap; i++){
+			if(comp(arr[i], arr[i + gap]) > 0){
+				swap(arr, i, i + gap);
+			}
+		}
+		fgap /= magicNumber;
+		gap = Math.floor(fgap);
+	}
+	var j = 0, flag = true;
+	while(flag){
+		flag = false;
+		j++;
+		for(i = 0; i < arr.length - j; i++){
+			if(comp(arr[i], arr[i + gap]) > 0){
+				swap(arr, i, i + gap);
+				flag = true;
+			}
+		}
+	}
+}
 var sorts = [
 	{
 		name: "Selection sort",
@@ -359,5 +383,10 @@ var sorts = [
 		name: "Shell sort (Sedgwick gap sequences)",
 		sort: shellSort,
 		href: "https://en.wikipedia.org/wiki/Shellsort"
+	},
+	{
+		name: "Comb sort",
+		sort: combSort,
+		href: "https://en.wikipedia.org/wiki/Comb_sort"
 	}
 ]
